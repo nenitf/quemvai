@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { Grommet, Box, Button, Heading, Paragraph } from "grommet";
+import { grommet } from "grommet";
+import { StatusUnknown } from 'grommet-icons';
 
-function App() {
+import criteriosJson from './criterios.json'
+
+const App = () => {
+  const [ criterios, setCriterios ] = useState([] as string[])
+  const [ criterio, setCriterio ] = useState("")
+
+  useEffect(() => {
+    setCriterios(criteriosJson)
+  }, [criterios])
+
+  function handleMudaCriterio(){
+    const i = Math.floor(Math.random() * (criterios.length - 1 - 0 + 1)) + 0
+    setCriterio(criterios[i])
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grommet full theme={grommet} themeMode="light">
+      <Box pad="large" basis="full" fill={true}>
+        <Heading level="1">Quem vai?</Heading>
+
+        <Paragraph margin="none">{criterio}</Paragraph>
+
+        <Button
+          primary
+          label={ <StatusUnknown color='plain' size='xlarge' /> }
+          alignSelf="end"
+          margin="large"
+          style={{position: 'absolute', right: 0, bottom: 0}}
+          onClick={handleMudaCriterio}
+        />
+      </Box>
+    </Grommet>
   );
-}
+};
 
 export default App;
